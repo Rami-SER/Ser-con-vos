@@ -132,6 +132,62 @@
   }
 
   /* ---------- Semáforo ---------- */
+  /* ---------- Alerta por WhatsApp (CallMeBot) — demo: los 3 niveles en rojo ---------- */
+  var sentKey = "";
+  function sendWhatsApp(status) {
+    var C = window.SER_CONFIG || {};
+    var em = C.email || {}, tg = C.telegram || {}, wa = C.whatsapp || {};
+    var hasEm = !!(em.serviceId && em.templateId && em.publicKey && em.to);
+    var hasTg = !!(tg.token && tg.chatId), hasWa = !!(wa.phone && wa.apikey);
+    var key = hoy.toDateString();
+    if (sentKey === key) return;              // no repetir el envío con cada clic
+    var d = new Date();
+    var hh = String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+    var fecha = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+    var box = function (cls, icon, html) { status.innerHTML = '<div class="alert ' + cls + ' pop"><svg><use href="#' + icon + '"/></svg><div>' + html + '</div></div>'; };
+    if (!hasEm && !hasTg && !hasWa) {
+      box("info", "i-info", "<b>Alerta roja detectada.</b> Para que llegue el aviso por email, completá los datos de EmailJS en el archivo <code>config.js</code>.");
+      return;
+    }
+    sentKey = key;
+    var text = "Un paciente marcó ROJO en los tres niveles del semáforo de bienestar: físico, mental y espiritual.\n" +
+      "Fecha: " + fecha + " · " + hh + " h\n" +
+      "Acción sugerida: contactar a la familia y avisar a la guardia de la institución.\n" +
+      "(Mensaje de demostración)";
+    var canal = hasEm ? "email" : hasTg ? "Telegram" : "WhatsApp";
+    box("bad", "i-bell", "<b>Enviando alerta por " + canal + " al coordinador…</b>");
+    var done = function () {
+      box("bad", "i-bell", "<b>Alerta enviada por " + canal + "</b> · " + hh + " h<br>Rojo en los tres niveles. El coordinador recibe el aviso al instante para comunicarse con la familia y notificar a la guardia.");
+    };
+    var fail = function (why) {
+      sentKey = "";
+      box("info", "i-info", "<b>No se pudo enviar la alerta.</b> " + (why || "Revisá la conexión a internet y los datos de <code>config.js</code>, y volvé a marcar los colores."));
+    };
+    try {
+      if (hasEm) {
+        fetch("https://api.emailjs.com/api/v1.0/email/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            service_id: em.serviceId, template_id: em.templateId, user_id: em.publicKey,
+            template_params: { to_email: em.to, fecha: fecha, hora: hh, niveles: "Físico, Mental y Espiritual", mensaje: text }
+          })
+        }).then(function (r) {
+          if (r.ok) return done();
+          return r.text().then(function (t) { fail("EmailJS respondió: " + (t || r.status) + ". Revisá los tres códigos de <code>config.js</code>."); });
+        }, function () { fail(); });
+      } else if (hasTg) {
+        var url = "https://api.telegram.org/bot" + String(tg.token).trim() + "/sendMessage?chat_id=" + encodeURIComponent(tg.chatId) + "&text=" + encodeURIComponent("ALERTA ROJA - S.E.R con vos\n" + text);
+        fetch(url, { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (j) {
+          if (j && j.ok) done(); else fail("Telegram respondió: " + ((j && j.description) || "error") + ".");
+        }).catch(function () { fetch(url, { mode: "no-cors" }).then(done, function () { fail(); }); });
+      } else {
+        var wurl = "https://api.callmebot.com/whatsapp.php?phone=" + encodeURIComponent(wa.phone) + "&text=" + encodeURIComponent("ALERTA ROJA - S.E.R con vos\n" + text) + "&apikey=" + encodeURIComponent(wa.apikey);
+        fetch(wurl, { mode: "no-cors", cache: "no-store" }).then(done, function () { fail(); });
+      }
+    } catch (_) { fail(); }
+  }
+
   function initSemaforo() {
     var dims = [["fisico", "Físico"], ["mental", "Mental"], ["espiritual", "Espiritual"]];
     var hist = { fisico: ["v","v","a","a","v","a"], mental: ["a","v","v","a","a","r"], espiritual: ["v","v","v","a","v","v"] };
@@ -152,6 +208,8 @@
       today[b.dataset.dim] = b.dataset.c;
       $$('.light[data-dim="' + b.dataset.dim + '"]').forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
       status.innerHTML = ""; render();
+      if (today.fisico === "r" && today.mental === "r" && today.espiritual === "r") sendWhatsApp(status);
+      else sentKey = "";
     });
     $("[data-sem-save]").addEventListener("click", function () {
       if (!today.fisico || !today.mental || !today.espiritual) {
