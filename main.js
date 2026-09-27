@@ -344,7 +344,7 @@
       $$("[data-amounts] .amount").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.a) === String(amt) ? "true" : "false"); });
       $("[data-otro]").hidden = amt !== "otro";
       var n = amt === "otro" ? (+$("#otroMonto").value || 0) : amt;
-      $("[data-impact]").textContent = n ? "Con " + fmt(n) + (freq === "mensual" ? " por mes" : "") + " ayudás a sostener el acompañamiento de familias en hospitales públicos del AMBA." : "Ingresá el monto que quieras aportar.";
+      $("[data-impact]").textContent = n ? "Cada aporte es importante. Con " + fmt(n) + (freq === "mensual" ? " por mes" : "") + " ayudás a sostener el acompañamiento de todos nuestros pacientes y sus familias." : "Ingresá el monto que quieras aportar.";
     };
     $("[data-amounts]").addEventListener("click", function (e) { var b = e.target.closest("[data-a]"); if (!b) return; amt = b.dataset.a === "otro" ? "otro" : +b.dataset.a; render(); });
     $("#otroMonto").addEventListener("input", render);
