@@ -547,3 +547,7 @@ footer{position:relative;background:var(--abyss);color:#A9C4D4;padding-block:cla
 .ac-for{font:800 .72rem var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
 .ac-card h3{font-size:1.25rem}
 .ac-card p{font-size:.95rem;color:var(--ink-soft);line-height:1.6}
+
+.ac-card{display:flex;flex-direction:column}
+.ac-card .ac-btn{margin-top:auto;align-self:flex-start}
+.ac-card p{margin-bottom:8px}
