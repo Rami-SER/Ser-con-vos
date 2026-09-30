@@ -297,42 +297,33 @@
   /* ---------- Capacitación ---------- */
   function initCapacitacion() {
     var vids = [
-      ["i-gauge", "Cómo tomar la presión arterial", ["Que la persona descanse sentada o acostada 5 minutos antes.", "Apoyar el brazo a la altura del corazón, sin ropa ajustada.", "Colocar el manguito 2 o 3 cm por encima del pliegue del codo.", "No hablar ni moverse durante la medición.", "Anotar los dos valores, el pulso y la hora."]],
-      ["i-finger", "Cómo leer un saturómetro", ["Usar un dedo limpio, sin esmalte, con la mano tibia.", "Colocar el saturómetro y esperar a que el número se estabilice.", "SpO₂ es el porcentaje de oxígeno; PR o LPM es el pulso.", "Anotar el valor y la hora.", "Si el valor es más bajo que el indicado por el equipo médico, comunicarse con ellos."]],
-      ["i-bed", "Cambios de posición en la cama", ["Cambiar de posición con la frecuencia que indique el equipo, en general cada 2 horas.", "Usar almohadas entre las rodillas y debajo de los talones.", "Revisar a diario sacro, caderas, talones y codos.", "Mantener la piel limpia y seca, y las sábanas sin arrugas.", "Avisar si aparece una zona roja que no se aclara."]],
-      ["i-drop", "Higiene en la cama", ["Preparar todo antes: palanganas, toallas, jabón neutro y ropa limpia.", "Descubrir solo la zona que se lava y tapar el resto.", "Ir de las zonas más limpias a las menos limpias.", "Secar bien los pliegues de la piel.", "Hidratar la piel y cambiar la ropa de cama si hace falta."]],
-      ["i-pill", "Organizar la medicación", ["Pasar las indicaciones a una planilla con horarios fijos.", "Usar un pastillero semanal con días y turnos.", "Anotar cada dosis y las dosis de rescate indicadas.", "Llevar la planilla a cada consulta.", "No cambiar dosis sin consultar al equipo médico."]],
-      ["i-lift", "Movilizar sin lastimarte", ["Explicarle a la persona lo que van a hacer juntos.", "Separar los pies, flexionar las rodillas y mantener la espalda recta.", "Acercar tu cuerpo al de la persona antes de hacer fuerza.", "Usar una sábana de arrastre para deslizar en lugar de levantar.", "Pedir ayuda cuando el movimiento requiere dos personas."]]
+      ["i-gauge", "Cómo tomar la presión arterial", ["Que la persona descanse sentada o acostada 5 minutos antes.", "Apoyar el brazo a la altura del corazón, sin ropa ajustada.", "Colocar el manguito 2 o 3 cm por encima del pliegue del codo.", "No hablar ni moverse durante la medición.", "Anotar los dos valores, el pulso y la hora."], "https://www.youtube.com/watch?v=gV-Q1kmHj1Q", "Kapital Inteligente"],
+      ["i-finger", "Cómo leer un saturómetro", ["Usar un dedo limpio, sin esmalte, con la mano tibia.", "Colocar el saturómetro y esperar a que el número se estabilice.", "SpO₂ es el porcentaje de oxígeno; PR o LPM es el pulso.", "Anotar el valor y la hora.", "Si el valor es más bajo que el indicado por el equipo médico, comunicarse con ellos."], "https://www.youtube.com/watch?v=-2Kj0DFaRng", "Clínica Alemana"],
+      ["i-bed", "Cambios de posición en la cama", ["Cambiar de posición con la frecuencia que indique el equipo, en general cada 2 horas.", "Usar almohadas entre las rodillas y debajo de los talones.", "Revisar a diario sacro, caderas, talones y codos.", "Mantener la piel limpia y seca, y las sábanas sin arrugas.", "Avisar si aparece una zona roja que no se aclara."], "https://www.youtube.com/watch?v=XRdRDepnH7c", "RedPal Cuidados Paliativos"],
+      ["i-drop", "Higiene en la cama", ["Preparar todo antes: palanganas, toallas, jabón neutro y ropa limpia.", "Descubrir solo la zona que se lava y tapar el resto.", "Ir de las zonas más limpias a las menos limpias.", "Secar bien los pliegues de la piel.", "Hidratar la piel y cambiar la ropa de cama si hace falta."], "https://www.youtube.com/watch?v=75D2-A11Yww", "Tutoriales para cuidadores · emeis"],
+      ["i-pill", "Organizar la medicación", ["Pasar las indicaciones a una planilla con horarios fijos.", "Usar un pastillero semanal con días y turnos.", "Anotar cada dosis y las dosis de rescate indicadas.", "Llevar la planilla a cada consulta.", "No cambiar dosis sin consultar al equipo médico."], "https://www.youtube.com/watch?v=KHVkIB2AYuc", "Salud en Casa Farmacia"],
+      ["i-lift", "Movilizar sin lastimarte", ["Explicarle a la persona lo que van a hacer juntos.", "Separar los pies, flexionar las rodillas y mantener la espalda recta.", "Acercar tu cuerpo al de la persona antes de hacer fuerza.", "Usar una sábana de arrastre para deslizar en lugar de levantar.", "Pedir ayuda cuando el movimiento requiere dos personas."], "https://www.youtube.com/watch?v=-_76jlSaMZg", "FREMAP"]
     ];
-    var seen = {}, cur = 0, prog = null, pct = 0;
-    var list = $("[data-lessons]");
+
+    var seen = {}, cur = 0;
+    var list = $("[data-lessons]"), link = $("[data-p-link]");
     var renderList = function () {
       list.innerHTML = vids.map(function (v, i) {
-        return '<button type="button" class="lesson" data-v="' + i + '" aria-current="' + (i === cur) + '"><span class="li"><svg><use href="#' + v[0] + '"/></svg></span><b>' + v[1] + '</b><span class="dur' + (seen[i] ? " seen" : "") + '">' + (seen[i] ? "✓ Visto" : "2:00") + "</span></button>";
+        return '<button type="button" class="lesson" data-v="' + i + '" aria-current="' + (i === cur) + '"><span class="li"><svg><use href="#' + v[0] + '"/></svg></span><b>' + v[1] + '</b><span class="dur' + (seen[i] ? " seen" : "") + '">' + (seen[i] ? "✓ Visto" : "YouTube") + "</span></button>";
       }).join("");
     };
-    var fmt = function (p) { var s = Math.round(120 * p / 100); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); };
-    var setPlay = function (playing) { $("[data-p-play]").innerHTML = '<svg><use href="#' + (playing ? "i-pause" : "i-play") + '"/></svg>'; $("[data-p-play]").setAttribute("aria-label", playing ? "Pausar" : "Reproducir"); };
     var open = function (i) {
-      cur = i; clearInterval(prog); prog = null; pct = 0; setPlay(false);
+      cur = i;
       var v = vids[i];
       $("[data-p-icon]").innerHTML = '<use href="#' + v[0] + '"/>';
       $("[data-p-title]").textContent = v[1];
-      $("[data-p-bar]").style.width = "0%"; $("[data-p-time]").textContent = "0:00 / 2:00";
+      $("[data-p-src]").textContent = "Video en YouTube · " + v[4];
+      link.href = v[3];
       $("[data-steps]").innerHTML = '<b style="font-family:var(--display);color:var(--blue-deep)">' + v[1] + "</b><ol>" + v[2].map(function (s) { return "<li>" + s + "</li>"; }).join("") + '</ol><p class="tiny">Orientación general. Seguí siempre las indicaciones del equipo de salud del paciente.</p>';
       renderList();
     };
     list.addEventListener("click", function (e) { var b = e.target.closest("[data-v]"); if (b) open(+b.dataset.v); });
-    $("[data-p-play]").addEventListener("click", function () {
-      if (prog) { clearInterval(prog); prog = null; setPlay(false); return; }
-      if (pct >= 100) pct = 0;
-      setPlay(true);
-      prog = setInterval(function () {
-        pct = Math.min(pct + 2.5, 100);
-        $("[data-p-bar]").style.width = pct + "%"; $("[data-p-time]").textContent = fmt(pct) + " / 2:00";
-        if (pct >= 100) { clearInterval(prog); prog = null; setPlay(false); seen[cur] = true; renderList(); }
-      }, 100);
-    });
+    link.addEventListener("click", function () { seen[cur] = true; renderList(); });
     open(0);
   }
 

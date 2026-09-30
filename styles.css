@@ -551,3 +551,7 @@ footer{position:relative;background:var(--abyss);color:#A9C4D4;padding-block:cla
 .ac-card{display:flex;flex-direction:column}
 .ac-card .ac-btn{margin-top:auto;align-self:flex-start}
 .ac-card p{margin-bottom:8px}
+
+a.res{text-decoration:none;color:inherit}
+a.res .d{color:var(--blue-ink)}
+.player .pv .btn{margin-top:6px}
