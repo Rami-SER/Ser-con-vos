@@ -302,14 +302,15 @@
       ["i-bed", "Cambios de posición en la cama", ["Cambiar de posición con la frecuencia que indique el equipo, en general cada 2 horas.", "Usar almohadas entre las rodillas y debajo de los talones.", "Revisar a diario sacro, caderas, talones y codos.", "Mantener la piel limpia y seca, y las sábanas sin arrugas.", "Avisar si aparece una zona roja que no se aclara."], "https://www.youtube.com/watch?v=XRdRDepnH7c", "RedPal Cuidados Paliativos"],
       ["i-drop", "Higiene en la cama", ["Preparar todo antes: palanganas, toallas, jabón neutro y ropa limpia.", "Descubrir solo la zona que se lava y tapar el resto.", "Ir de las zonas más limpias a las menos limpias.", "Secar bien los pliegues de la piel.", "Hidratar la piel y cambiar la ropa de cama si hace falta."], "https://www.youtube.com/watch?v=75D2-A11Yww", "Tutoriales para cuidadores · emeis"],
       ["i-pill", "Organizar la medicación", ["Pasar las indicaciones a una planilla con horarios fijos.", "Usar un pastillero semanal con días y turnos.", "Anotar cada dosis y las dosis de rescate indicadas.", "Llevar la planilla a cada consulta.", "No cambiar dosis sin consultar al equipo médico."], "https://www.youtube.com/watch?v=KHVkIB2AYuc", "Salud en Casa Farmacia"],
-      ["i-heart", "Acompañar emocionalmente", ["Escuchar más de lo que se habla: dejar que la persona exprese lo que siente sin corregirla.", "Validar las emociones: el miedo, el enojo o la tristeza son reacciones esperables.", "Preguntar qué necesita antes de suponerlo, y respetar sus tiempos y silencios.", "Sostener rutinas y momentos de disfrute que no giren alrededor de la enfermedad.", "Cuidar también tus emociones: pedir ayuda y sumarte a un espacio para cuidadores."], "https://www.youtube.com/watch?v=ANgl8Fqmbc0", "Psicooncología Online"]
+      ["i-heart", "Acompañar emocionalmente", ["Escuchar más de lo que se habla: dejar que la persona exprese lo que siente sin corregirla.", "Validar las emociones: el miedo, el enojo o la tristeza son reacciones esperables.", "Preguntar qué necesita antes de suponerlo, y respetar sus tiempos y silencios.", "Sostener rutinas y momentos de disfrute que no giren alrededor de la enfermedad.", "Cuidar también tus emociones: pedir ayuda y sumarte a un espacio para cuidadores."], "https://www.pbs.org/video/consejos-al-cuidar-de-un-ser-querido-con-cancer-7wurym", "For Your Good Health (2:30 min)"]
     ];
 
     var seen = {}, cur = 0;
+    var plat = function (u) { return /youtube\.com|youtu\.be/.test(u) ? "YouTube" : "PBS"; };
     var list = $("[data-lessons]"), link = $("[data-p-link]");
     var renderList = function () {
       list.innerHTML = vids.map(function (v, i) {
-        return '<button type="button" class="lesson" data-v="' + i + '" aria-current="' + (i === cur) + '"><span class="li"><svg><use href="#' + v[0] + '"/></svg></span><b>' + v[1] + '</b><span class="dur' + (seen[i] ? " seen" : "") + '">' + (seen[i] ? "✓ Visto" : "YouTube") + "</span></button>";
+        return '<button type="button" class="lesson" data-v="' + i + '" aria-current="' + (i === cur) + '"><span class="li"><svg><use href="#' + v[0] + '"/></svg></span><b>' + v[1] + '</b><span class="dur' + (seen[i] ? " seen" : "") + '">' + (seen[i] ? "✓ Visto" : plat(vids[i][3])) + "</span></button>";
       }).join("");
     };
     var open = function (i) {
@@ -317,8 +318,9 @@
       var v = vids[i];
       $("[data-p-icon]").innerHTML = '<use href="#' + v[0] + '"/>';
       $("[data-p-title]").textContent = v[1];
-      $("[data-p-src]").textContent = "Video en YouTube · " + v[4];
+      $("[data-p-src]").textContent = "Video en " + plat(v[3]) + " · " + v[4];
       link.href = v[3];
+      link.innerHTML = '<svg><use href="#i-play"/></svg>Ver en ' + plat(v[3]);
       $("[data-steps]").innerHTML = '<b style="font-family:var(--display);color:var(--blue-deep)">' + v[1] + "</b><ol>" + v[2].map(function (s) { return "<li>" + s + "</li>"; }).join("") + '</ol><p class="tiny">Orientación general. Seguí siempre las indicaciones del equipo de salud del paciente.</p>';
       renderList();
     };
