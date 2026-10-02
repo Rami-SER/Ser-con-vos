@@ -76,7 +76,7 @@ button{font:inherit}
 .menu .dona a:hover::after,.menu .dona a.is-active::after{bottom:-90%}
 .menu-toggle{display:none;align-items:center;gap:10px;border:0;background:var(--blue);color:#fff;font:800 .85rem var(--body);letter-spacing:.06em;text-transform:uppercase;padding:0 22px;cursor:pointer}
 .menu-toggle svg{width:22px;height:22px}
-@media (max-width:1180px){
+@media (max-width:1320px){
   .menu-toggle{display:flex}
   .menu{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--paper);box-shadow:0 20px 40px -20px rgba(11,53,80,.4);padding-block:8px 14px;border-top:1px solid var(--line)}
   .menu.open{display:flex}
@@ -555,3 +555,43 @@ footer{position:relative;background:var(--abyss);color:#A9C4D4;padding-block:cla
 a.res{text-decoration:none;color:inherit}
 a.res .d{color:var(--blue-ink)}
 .player .pv .btn{margin-top:6px}
+
+/* ---------- Login (demo visual) ---------- */
+.login-li{display:flex}
+.login-btn{display:flex;align-items:center;gap:7px;border:0;background:transparent;color:var(--blue-ink);font:800 .84rem var(--body);letter-spacing:.02em;text-transform:uppercase;padding:0 12px;cursor:pointer;white-space:nowrap}
+.login-btn svg{width:20px;height:20px;padding:3px;border-radius:50%;border:1.5px solid currentColor;box-sizing:content-box}
+.login-btn:hover{color:var(--blue-deep)}
+.login-btn.is-in svg{background:var(--blue);color:#fff;border-color:var(--blue)}
+@media (max-width:1320px){.login-btn{padding:14px clamp(18px,4vw,36px);font-size:.95rem;width:100%}}
+dialog.login{width:min(440px,calc(100% - 32px));border:0;border-radius:28px;padding:34px 30px 28px;background:var(--paper);color:var(--ink);box-shadow:0 40px 90px -30px rgba(7,38,56,.55)}
+dialog.login::backdrop{background:rgba(7,38,56,.55);backdrop-filter:blur(4px)}
+dialog.login[open]{animation:popIn .35s var(--ease)}
+.login-x{position:absolute;top:14px;right:16px;width:36px;height:36px;border-radius:50%;border:0;background:var(--sky);color:var(--ink-soft);font-size:1.4rem;line-height:1;cursor:pointer}
+.login-head{display:grid;justify-items:center;text-align:center;gap:8px;margin-bottom:22px}
+.login-head .brand-mark{width:52px;height:52px}
+.login-head h3{font-size:1.45rem}
+.login-head p{color:var(--mute);font-size:.92rem}
+.login-form{display:grid;gap:14px}
+.ipt{position:relative;display:flex;align-items:center}
+.ipt>svg{position:absolute;left:14px;width:18px;height:18px;color:var(--mute);pointer-events:none}
+.ipt input{padding-left:42px!important}
+.ipt .eye{position:absolute;right:8px;width:34px;height:34px;border:0;background:transparent;color:var(--mute);cursor:pointer;display:grid;place-items:center;border-radius:50%}
+.ipt .eye svg{width:18px;height:18px}
+.ipt .eye[aria-pressed="true"]{color:var(--blue)}
+.login-row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:.86rem}
+.chk{display:flex;align-items:center;gap:7px;font-weight:600;color:var(--ink-soft)}
+.login-form .btn{width:100%}
+.login-note{font-size:.8rem;color:#8A5A1E;background:var(--sun-soft);border-radius:12px;padding:10px 12px;text-align:center}
+.login-done{display:grid;justify-items:center;text-align:center;gap:10px}
+.login-done .avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#9ED8F2,var(--blue));color:#fff;display:grid;place-items:center;font:800 1.5rem var(--display)}
+.login-done p{color:var(--ink-soft)}
+.login-done .btn{width:100%}
+
+.nav{max-width:1320px}
+.menu a{padding:0 10px}
+.menu a::after{left:10px;right:10px}
+@media (min-width:1321px){.login-btn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.login-btn{padding:0 10px 0 12px}}
+@media (max-width:1320px){.menu a{padding:14px clamp(18px,4vw,36px)}.menu a::after{left:clamp(18px,4vw,36px);right:auto}}
+
+@media (min-width:1321px){.login-li .login-btn{padding:0 4px 0 14px}}
+@media (max-width:1320px){.menu .login-li{order:1}.menu .dona{order:2}}

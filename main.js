@@ -358,6 +358,44 @@
     });
   }
 
+  /* ---------- Login (demo visual: no guarda ni envía datos) ---------- */
+  function initLogin() {
+    var dlg = $("[data-login]"), form = $("[data-login-form]"), done = $("[data-login-done]");
+    var btn = $("[data-login-open]"), label = $("[data-login-label]");
+    var user = null;
+    var show = function () {
+      form.hidden = !!user; done.hidden = !user; $(".login-head").hidden = !!user;
+      if (user) { $("[data-login-name]").textContent = user; $("[data-login-avatar]").textContent = user.charAt(0).toUpperCase(); }
+      if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+    };
+    var close = function () { if (dlg.close) dlg.close(); else dlg.removeAttribute("open"); };
+    btn.addEventListener("click", function () { $("#menu").classList.remove("open"); show(); });
+    $("[data-login-close]").addEventListener("click", close);
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) close(); });
+    $("[data-eye]").addEventListener("click", function () {
+      var p = $("#lgPass"), on = p.type === "password";
+      p.type = on ? "text" : "password"; this.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    $("[data-forgot]").addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); $("[data-forgot-msg]").hidden = false; });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var raw = $("#lgUser").value.trim(); if (!raw) return;
+      var sub = $("[data-login-submit]"); sub.textContent = "Ingresando…"; sub.disabled = true;
+      setTimeout(function () {
+        var n = raw.split("@")[0].replace(/[._-]+/g, " ").trim();
+        user = /^\d+$/.test(n) ? "usuario/a" : n.split(" ").map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(" ");
+        $("#lgPass").value = "";                          // la contraseña no se guarda
+        sub.textContent = "Ingresar"; sub.disabled = false;
+        label.textContent = "Hola, " + user; btn.classList.add("is-in"); btn.title = "Sesión iniciada: " + user; btn.setAttribute("aria-label", btn.title);
+        show();
+      }, 800);
+    });
+    $("[data-logout]").addEventListener("click", function () {
+      user = null; form.reset(); label.textContent = "Ingresar"; btn.classList.remove("is-in"); btn.title = "Ingresar a la plataforma"; btn.setAttribute("aria-label", btn.title); close();
+    });
+    $("[data-login-go]").addEventListener("click", close);
+  }
+
   function boot() {
     safe(initNav, "initNav");
     safe(initToday, "initToday");
@@ -369,6 +407,7 @@
     safe(initCapacitacion, "initCapacitacion");
     safe(initDona, "initDona");
     safe(initContacto, "initContacto");
+    safe(initLogin, "initLogin");
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
 })();
