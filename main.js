@@ -30,6 +30,8 @@
       var el = document.querySelector(id);
       if (!el) return;
       e.preventDefault();
+      var tp = el.closest('[role="tabpanel"]');
+      if (tp && tp.hidden) { var tb = document.getElementById(tp.getAttribute("aria-labelledby")); if (tb) tb.click(); }
       if (a.dataset.motivo) {
         var sel = $("#cMotivo");
         $$("option", sel).forEach(function (o) { if (o.textContent === a.dataset.motivo) sel.value = o.value; });
@@ -240,7 +242,7 @@
       { k: ["paliativo","ley","derecho"], chip: "Derechos en cuidados paliativos", a: "La <b>Ley 27.678 de Cuidados Paliativos</b> (2022) reconoce el derecho de las personas con enfermedades que amenazan o limitan la vida, y de sus familias, a recibir cuidados paliativos en el sector público, las obras sociales y las prepagas.", src: "Ficha S.E.R · Derechos" },
       { k: ["licencia","trabajo","empleo","cuidador","permiso"], chip: "Licencia para el cuidador", a: "La Ley de Contrato de Trabajo no prevé una licencia específica para cuidar a un familiar enfermo, pero muchos convenios colectivos y estatutos sí la incluyen.<br><br>Revisá tu convenio o consultá en Recursos Humanos. En el programa te ayudamos a ver qué te corresponde.", src: "Ficha S.E.R · Cuidadores" },
       { k: ["dato","privacidad","confidencial"], chip: "¿Quién ve mis datos?", a: "Tus registros solo los ven el coordinador de S.E.R y el interlocutor médico de la institución. Se protegen según la <b>Ley 25.326</b> y se destruyen si el convenio termina.", src: "Ficha S.E.R · Privacidad" },
-      { k: ["urgencia","emergencia","guardia","107"], chip: "Tengo una urgencia", a: "Si hay una urgencia, <b>llamá al 107</b> o al servicio de emergencias de tu cobertura. La Guía S.E.R no reemplaza la atención médica.", src: "Ficha S.E.R · Emergencias" }
+      { k: ["urgencia","emergencia","guardia","107"], chip: "Tengo una urgencia", a: "Si hay una urgencia, <b>llamá al 107</b> o al servicio de emergencias de tu cobertura. La Guía S.E.R no reemplaza la atención médica.<br><br>Si no sabés si un síntoma es urgente, revisá las <a href=\"#senales\">señales de alarma</a> junto al semáforo.", src: "Ficha S.E.R · Emergencias" }
     ];
     var msgs = $("[data-msgs]"), chips = $("[data-chips]");
     if (chips.children.length === 0) chips.innerHTML = kb.map(function (e) { return '<button class="chip" type="button">' + e.chip + "</button>"; }).join("");

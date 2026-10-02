@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@600;700;800&family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,400&family=Caveat:wght@600&display=swap">
-<link rel="stylesheet" href="styles.css?v=20261003b">
+<link rel="stylesheet" href="styles.css?v=20261004">
 <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
@@ -334,6 +334,7 @@
         <p>Cada mañana, el paciente o su cuidador marca cómo se siente en tres niveles: físico, mental y espiritual. Verde, amarillo o rojo. Nada más.</p>
         <div class="rule" aria-label="Dos días seguidos en rojo generan una alerta"><i></i><span class="arrow">+</span><i></i><span class="arrow">→</span><span class="bell"><svg><use href="#i-bell"/></svg></span></div>
         <p>Si el dolor físico o la angustia mental marcan <b>rojo dos días seguidos</b>, el sistema avisa al coordinador, que se comunica con la familia y notifica a la guardia. La institución gana tiempo para intervenir antes de una urgencia.</p>
+        <p><a href="#senales" class="alarm-link">¿No sabés si un síntoma es urgente? Mirá las señales de alarma ↓</a></p>
         <p class="tiny">En el ejemplo, ayer se registró rojo en el nivel mental. Marcá rojo en mental y registrá el día para ver la alerta.</p>
         <div class="alert bad"><svg><use href="#i-bell"/></svg><div><b>Demo en vivo:</b> si marcás <b>rojo en los tres niveles</b>, se envía al instante un email real al coordinador.</div></div>
       </div>
@@ -349,6 +350,51 @@
           <div class="hist" data-hist aria-label="Registro de los últimos 7 días"></div>
           <div data-sem-status aria-live="polite"></div>
         </div>
+      </div>
+      <div class="alarm" id="senales">
+        <div class="alarm-head">
+          <span class="kicker">Señales de alarma</span>
+          <h3>¿Cuándo consultar?</h3>
+          <p>El semáforo registra cómo se siente el paciente día a día. Esta guía ayuda a decidir qué hacer cuando aparece un síntoma.</p>
+        </div>
+        <div class="alarm-grid">
+          <article class="alarm-card lv-r">
+            <div class="alarm-top"><span class="alarm-dot"></span><div><b>Urgente</b><small>Consultá ahora</small></div></div>
+            <ul>
+              <li>Dificultad para respirar que aparece de golpe o empeora, labios o uñas azulados, o dolor en el pecho</li>
+              <li>Fiebre de 38 °C o más durante un tratamiento oncológico, o escalofríos</li>
+              <li>Debilidad o pesadez en las piernas, problemas para caminar, o pérdida del control de la orina o los intestinos</li>
+              <li>Vómitos que duran más de 24 horas sin poder retener líquidos, o vómitos con sangre</li>
+              <li>Confusión, alucinaciones o cambios de conducta que aparecen de repente, sobre todo al empezar una medicación</li>
+              <li>Sangrado abundante, o dolor de panza muy intenso con hinchazón y vómitos</li>
+            </ul>
+            <div class="alarm-do"><b>Qué hacer</b>Llamá al equipo tratante o al servicio de emergencias de tu cobertura. Si no responden o la situación es grave, llamá al <b>107</b> o andá a la guardia más cercana. Después avisá al coordinador de S.E.R.</div>
+          </article>
+          <article class="alarm-card lv-a">
+            <div class="alarm-top"><span class="alarm-dot"></span><div><b>Prestar atención</b><small>Avisá en el día</small></div></div>
+            <ul>
+              <li>Dolor nuevo o que aumenta y no se controla bien con la medicación indicada</li>
+              <li>Náuseas o vómitos que impiden comer o beber con normalidad</li>
+              <li>Tres días sin evacuar</li>
+              <li>Llagas o dolor en la boca, o dificultad para tragar</li>
+              <li>Hinchazón nueva o que aumenta, o moretones sin motivo</li>
+              <li>Cansancio extremo, angustia, tristeza o problemas para dormir que no ceden</li>
+            </ul>
+            <div class="alarm-do"><b>Qué hacer</b>Comunicate hoy con el equipo tratante y con el coordinador de S.E.R, y registralo en el semáforo.</div>
+          </article>
+          <article class="alarm-card lv-v">
+            <div class="alarm-top"><span class="alarm-dot"></span><div><b>Tranquilidad</b><small>Seguí observando</small></div></div>
+            <ul>
+              <li>Cansancio y más horas de sueño propios de esta etapa</li>
+              <li>Menos apetito o sed, sin otros síntomas</li>
+              <li>Molestias leves y ya conocidas, que mejoran con lo que indicó el equipo</li>
+              <li>Cambios de ánimo pasajeros</li>
+            </ul>
+            <div class="alarm-do"><b>Qué hacer</b>Seguí los cuidados indicados, registrá el día en el semáforo y comentalo en la próxima consulta.</div>
+            <p class="alarm-note">En la etapa final de la vida, algunos cambios como dormir más, comer menos o respirar distinto pueden ser esperables. Si el equipo ya te explicó qué esperar, seguí el plan acordado con ellos.</p>
+          </article>
+        </div>
+        <p class="alarm-foot"><b>Esta guía es orientativa y no reemplaza la evaluación médica.</b> S.E.R con vos no es un efector de salud. Ante la duda, consultá siempre.<br><span>Elaborada a partir de: Instituto Nacional del Cáncer (Argentina), Centros para el Control y la Prevención de Enfermedades (CDC), Sociedad Americana Contra el Cáncer, Instituto Nacional del Cáncer de EE. UU., OncoLink y MedlinePlus.</span></p>
       </div>
     </div>
 
@@ -511,7 +557,7 @@
       <div class="info" data-reveal>
         <div class="box"><h4>Correo</h4><div class="copy-line"><code data-mail>contacto@serconvos.org.ar</code><button class="btn ghost sm" type="button" data-copy>Copiar</button></div></div>
         <div class="box"><h4>Dónde estamos</h4><p style="color:var(--ink-soft)">Trabajamos dentro de hospitales y clínicas de la Ciudad de Buenos Aires y el conurbano bonaerense. Si tu familiar se atiende en una institución adherida, pedile al equipo de oncología la derivación al programa.</p></div>
-        <div class="alert bad"><svg><use href="#i-alert"/></svg><div>Ante una emergencia médica, llamá al <b>107</b> o al servicio de emergencias de tu cobertura.</div></div>
+        <div class="alert bad"><svg><use href="#i-alert"/></svg><div>Ante una emergencia médica, llamá al <b>107</b> o al servicio de emergencias de tu cobertura. <a href="#senales">Ver señales de alarma</a></div></div>
       </div>
     </div>
   </div>
@@ -561,6 +607,6 @@
 </footer>
 
 <script defer src="config.js?v=20260927"></script>
-<script defer src="main.js?v=20261003b"></script>
+<script defer src="main.js?v=20261004"></script>
 </body>
 </html>

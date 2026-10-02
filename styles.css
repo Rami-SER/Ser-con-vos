@@ -604,3 +604,28 @@ dialog.login[open]{animation:popIn .35s var(--ease)}
 .ac-group.g-comp .ac-ic{background:linear-gradient(135deg,#5BB3E0,var(--blue))}
 @media (max-width:1100px){.g-pac .ac-grid,.g-comp .ac-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:600px){.g-care .ac-grid,.g-pac .ac-grid,.g-comp .ac-grid{grid-template-columns:1fr}}
+
+/* ---------- Señales de alarma (junto al semáforo) ---------- */
+.alarm{grid-column:1/-1;margin-top:clamp(30px,4vw,48px);padding:clamp(24px,3.5vw,40px);border-radius:28px;background:var(--sky);border:1px solid var(--line);display:grid;gap:24px;scroll-margin-top:calc(var(--nav-h) + 16px)}
+.alarm-head{display:grid;gap:8px;max-width:640px}
+.alarm-head h3{font-size:clamp(1.6rem,2.6vw,2.1rem)}
+.alarm-head p{color:var(--ink-soft)}
+.alarm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}
+@media (max-width:1000px){.alarm-grid{grid-template-columns:1fr}}
+.alarm-card{background:var(--paper);border-radius:22px;padding:22px 22px 20px;display:grid;gap:14px;border-top:6px solid var(--c);box-shadow:var(--shadow-s)}
+.lv-r{--c:var(--bad);--cs:var(--bad-soft)}.lv-a{--c:var(--warn);--cs:var(--warn-soft)}.lv-v{--c:var(--ok);--cs:var(--ok-soft)}
+.alarm-top{display:flex;align-items:center;gap:12px}
+.alarm-dot{width:38px;height:38px;border-radius:50%;background:var(--c);box-shadow:0 0 0 6px var(--cs);flex-shrink:0}
+.alarm-top b{display:block;font:800 1.2rem var(--display);color:var(--blue-deep)}
+.alarm-top small{font:800 .74rem var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--c)}
+.lv-a .alarm-top small{color:#A87406}
+.alarm-card ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.alarm-card li{display:grid;grid-template-columns:14px 1fr;gap:8px;font-size:.92rem;line-height:1.5;color:var(--ink)}
+.alarm-card li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c);margin-top:.5em}
+.alarm-do{background:var(--cs);border-radius:14px;padding:12px 14px;font-size:.9rem;line-height:1.5;color:var(--ink)}
+.alarm-do>b:first-child{display:block;font:800 .72rem var(--body);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;color:var(--ink-soft)}
+.alarm-note{font-size:.82rem;color:var(--mute);font-style:italic}
+.alarm-foot{font-size:.86rem;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:16px}
+.alarm-foot span{display:block;margin-top:6px;font-size:.78rem;color:var(--mute)}
+.alarm-link{font-weight:800;text-decoration:none;border-bottom:2px solid currentColor}
+#panel-semaforo .panel-copy{position:static}
