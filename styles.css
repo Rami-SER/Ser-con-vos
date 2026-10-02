@@ -629,3 +629,5 @@ dialog.login[open]{animation:popIn .35s var(--ease)}
 .alarm-foot span{display:block;margin-top:6px;font-size:.78rem;color:var(--mute)}
 .alarm-link{font-weight:800;text-decoration:none;border-bottom:2px solid currentColor}
 #panel-semaforo .panel-copy{position:static}
+.chat{height:620px}
+.chat .chips{flex-wrap:wrap;overflow-x:hidden;overflow-y:auto;max-height:104px;align-content:flex-start}
