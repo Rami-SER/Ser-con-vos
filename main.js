@@ -236,7 +236,7 @@
       { k: ["cud","certificado","discapacidad"], chip: "¿Cómo tramito el CUD?", a: "El <b>Certificado Único de Discapacidad (CUD)</b> se tramita ante la Junta Evaluadora de tu localidad. En general piden DNI, un certificado médico reciente con el diagnóstico y los estudios que lo respalden.<br><br>Con el CUD accedés a cobertura total de las prestaciones vinculadas y a transporte público gratuito. Tu coordinador te ayuda a armar la carpeta y pedir el turno.", src: "Ficha S.E.R · Trámites · CUD" },
       { k: ["taller","inscrib","programa","grupo","yoga","nutricion","psicoonco","heroes"], chip: "¿Cómo me sumo a un taller?", a: "En la sección <b>Acompañamiento</b> vas a encontrar todos los talleres y programas. Algunos son <b>presenciales</b> y otros <b>virtuales</b>.<br><br>Elegí el que te interese y tocá <b>Inscribirse</b>, o pedíselo a tu coordinador de enlace. Son sin costo para los pacientes y las familias del programa.", src: "Ficha S.E.R · Acompañamiento" },
       { k: ["semaforo","rojo","alerta","sintoma"], chip: "¿Cómo funciona el semáforo?", a: "Cada mañana marcás cómo te sentís en tres niveles: <b>físico, mental y espiritual</b>, con verde, amarillo o rojo.<br><br>Si el dolor físico o la angustia mental marcan <b>rojo dos días seguidos</b>, el sistema avisa automáticamente a tu coordinador, que se comunica con la familia y, si hace falta, con la guardia de la institución.", src: "Ficha S.E.R · Semáforo" },
-      { k: ["agotad","cansad","burnout","no doy mas","no puedo mas","estres","ayuda emocional"], chip: "Me siento agotado/a cuidando", a: "Lo que sentís es muy común en quien cuida, y no tenés que atravesarlo solo/a. Te recomendamos:<br>• El grupo <b>Acompañar al que cuida</b>, exclusivo para cuidadores principales.<br>• El taller virtual <b>Cuidadores en acción</b>.<br>• El ejercicio de respiración del <b>Botiquín digital</b>, para los momentos de más tensión.<br><br>Tu coordinador también puede ayudarte a organizar turnos de descanso con otros familiares.", src: "Ficha S.E.R · Cuidadores" },
+      { k: ["agotad","cansad","burnout","no doy mas","no puedo mas","estres","ayuda emocional"], chip: "Me siento agotado/a cuidando", a: "Lo que sentís es muy común en quien cuida, y no tenés que atravesarlo solo/a. Te recomendamos:<br>• El taller <b>Tu espacio seguro</b>, exclusivo para cuidadores principales.<br>• El taller virtual <b>El arte de cuidarse</b>.<br>• El ejercicio de respiración del <b>Botiquín digital</b>, para los momentos de más tensión.<br><br>Tu coordinador también puede ayudarte a organizar turnos de descanso con otros familiares.", src: "Ficha S.E.R · Cuidadores" },
       { k: ["paliativo","ley","derecho"], chip: "Derechos en cuidados paliativos", a: "La <b>Ley 27.678 de Cuidados Paliativos</b> (2022) reconoce el derecho de las personas con enfermedades que amenazan o limitan la vida, y de sus familias, a recibir cuidados paliativos en el sector público, las obras sociales y las prepagas.", src: "Ficha S.E.R · Derechos" },
       { k: ["licencia","trabajo","empleo","cuidador","permiso"], chip: "Licencia para el cuidador", a: "La Ley de Contrato de Trabajo no prevé una licencia específica para cuidar a un familiar enfermo, pero muchos convenios colectivos y estatutos sí la incluyen.<br><br>Revisá tu convenio o consultá en Recursos Humanos. En el programa te ayudamos a ver qué te corresponde.", src: "Ficha S.E.R · Cuidadores" },
       { k: ["dato","privacidad","confidencial"], chip: "¿Quién ve mis datos?", a: "Tus registros solo los ven el coordinador de S.E.R y el interlocutor médico de la institución. Se protegen según la <b>Ley 25.326</b> y se destruyen si el convenio termina.", src: "Ficha S.E.R · Privacidad" },
@@ -365,7 +365,6 @@
     var user = null;
     var show = function () {
       form.hidden = !!user; done.hidden = !user; $(".login-head").hidden = !!user;
-      if (user) { $("[data-login-name]").textContent = user; $("[data-login-avatar]").textContent = user.charAt(0).toUpperCase(); }
       if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
     };
     var close = function () { if (dlg.close) dlg.close(); else dlg.removeAttribute("open"); };
@@ -382,11 +381,10 @@
       var raw = $("#lgUser").value.trim(); if (!raw) return;
       var sub = $("[data-login-submit]"); sub.textContent = "Ingresando…"; sub.disabled = true;
       setTimeout(function () {
-        var n = raw.split("@")[0].replace(/[._-]+/g, " ").trim();
-        user = /^\d+$/.test(n) ? "usuario/a" : n.split(" ").map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(" ");
+        user = true;
         $("#lgPass").value = "";                          // la contraseña no se guarda
         sub.textContent = "Ingresar"; sub.disabled = false;
-        label.textContent = "Hola, " + user; btn.classList.add("is-in"); btn.title = "Sesión iniciada: " + user; btn.setAttribute("aria-label", btn.title);
+        label.textContent = "Mi cuenta"; btn.classList.add("is-in"); btn.title = "Sesión iniciada"; btn.setAttribute("aria-label", btn.title);
         show();
       }, 800);
     });
