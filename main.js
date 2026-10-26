@@ -403,6 +403,48 @@
     $("[data-login-go]").addEventListener("click", close);
   }
 
+  /* ---------- Asociate (demo: no guarda ni envía datos) ---------- */
+  function initSocios() {
+    var form = $("[data-socio]"); if (!form) return;
+    var step = 1, steps = $$("[data-step]", form), dots = $$("[data-steps] li", form);
+    var back = $("[data-socio-back]"), next = $("[data-socio-next]"), send = $("[data-socio-send]"), err = $("[data-socio-err]");
+    var val = function (n) { var r = $("input[name='" + n + "']:checked", form); return r ? r.value : ""; };
+    var show = function () {
+      steps.forEach(function (f) { f.hidden = +f.dataset.step !== step; });
+      dots.forEach(function (d, i) { d.classList.toggle("on", i + 1 === step); d.classList.toggle("done", i + 1 < step); });
+      back.hidden = step === 1; next.hidden = step === 3; send.hidden = step !== 3; err.hidden = true;
+      if (step === 3) {
+        var tel = $("#sTel").value.trim();
+        $("[data-summary]").innerHTML =
+          "<dt>Nombre</dt><dd>" + esc($("#sNombre").value.trim()) + "</dd>" +
+          "<dt>Correo</dt><dd>" + esc($("#sMail").value.trim()) + "</dd>" +
+          (tel ? "<dt>Teléfono</dt><dd>" + esc(tel) + "</dd>" : "") +
+          "<dt>Categoría</dt><dd>" + esc(val("sTipo")) + "</dd>" +
+          "<dt>Cuota</dt><dd>$8.000 por mes</dd>" +
+          "<dt>Pago</dt><dd>" + esc(val("sPago")) + "</dd>";
+      }
+    };
+    var fail = function (msg, el) { err.textContent = msg; err.hidden = false; if (el) el.focus(); };
+    next.addEventListener("click", function () {
+      if (step === 1) {
+        var n = $("#sNombre"), m = $("#sMail");
+        if (!n.value.trim()) return fail("Completá tu nombre y apellido.", n);
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m.value.trim())) return fail("Revisá tu correo electrónico.", m);
+      }
+      step++; show();
+    });
+    back.addEventListener("click", function () { step--; show(); });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!$("#sOk").checked) return fail("Para continuar, aceptá el uso de tus datos.", $("#sOk"));
+      steps.forEach(function (f) { f.hidden = true; });
+      $(".soc-nav", form).hidden = true; $("[data-steps]", form).hidden = true; $(".soc-head", form).hidden = true; err.hidden = true;
+      $("[data-socio-done]").hidden = false;
+      $("#sOk").checked = false;
+    });
+    show();
+  }
+
   function boot() {
     safe(initNav, "initNav");
     safe(initToday, "initToday");
@@ -415,6 +457,7 @@
     safe(initDona, "initDona");
     safe(initContacto, "initContacto");
     safe(initLogin, "initLogin");
+    safe(initSocios, "initSocios");
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
 })();
