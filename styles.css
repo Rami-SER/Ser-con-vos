@@ -741,3 +741,13 @@ dialog.login[open]{animation:popIn .35s var(--ease)}
 .d-card .to-socios a{font-weight:800}
 
 [hidden]{display:none!important}
+
+/* ==========================================================================
+   Navegación por secciones: portada + una sección por vista
+   ========================================================================== */
+main > section.v-enter{animation:viewIn .5s var(--ease) both}
+@keyframes viewIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){main > section.v-enter{animation:none}}
+main > section.v-last > .wave{fill:#072638}
+
+footer{padding-top:clamp(64px,7vw,96px)}

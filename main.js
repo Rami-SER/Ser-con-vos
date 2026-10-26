@@ -17,53 +17,92 @@
     var header = $("[data-header]"), menu = $("#menu"), toggle = $("[data-menu-toggle]");
     var onScroll = function () { header.classList.toggle("is-scrolled", window.scrollY > 8); };
     window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
-    toggle.addEventListener("click", function () {
+    var closeMenu = function () { menu.classList.remove("open"); toggle.setAttribute("aria-expanded", "false"); };
+    toggle.addEventListener("click", function (e) {
+      e.stopPropagation();
       var open = menu.classList.toggle("open");
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
     });
+    document.addEventListener("click", function (e) { if (menu.classList.contains("open") && !e.target.closest("#menu")) closeMenu(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && menu.classList.contains("open")) { closeMenu(); toggle.focus(); } });
+
+    /* --- Vistas: la portada y cada sección del menú se muestran por separado --- */
+    var sections = $$("main > section[id]");
+    var home = document.getElementById("inicio");
+    var viewOf = function (s) { return s.dataset.view || s.id; };
+    var links = $$(".menu a");
+    var order = [{ id: "inicio", label: "Inicio" }];
+    $$(".menu a").forEach(function (l) {
+      var id = l.getAttribute("href").slice(1);
+      if (document.getElementById(id)) order.push({ id: id, label: l.textContent.trim() });
+    });
+    var pager = $("[data-pager]"), prev = $("[data-pg-prev]"), next = $("[data-pg-next]");
+    var current = null;
+
+    var show = function (key) {
+      var visible = [];
+      sections.forEach(function (s) {
+        var on = key === "inicio" ? s === home : viewOf(s) === key;
+        s.hidden = !on; s.classList.remove("v-last", "v-enter");
+        if (on) visible.push(s);
+      });
+      if (!visible.length) { home.hidden = false; visible.push(home); key = "inicio"; }
+      visible[visible.length - 1].classList.add("v-last");
+      if (key !== current) visible.forEach(function (s) { void s.offsetWidth; s.classList.add("v-enter"); });
+      links.forEach(function (l) { l.classList.toggle("is-active", l.getAttribute("href") === "#" + key); });
+      var i = -1; order.forEach(function (o, k) { if (o.id === key) i = k; });
+      if (pager) {
+        pager.hidden = key === "inicio" || i < 0;
+        if (i > 0) {
+          var p = order[i - 1], n = order[i + 1];
+          prev.setAttribute("href", "#" + p.id); $("[data-pg-prev-l]").textContent = p.label;
+          next.hidden = !n;
+          if (n) { next.setAttribute("href", "#" + n.id); $("[data-pg-next-l]").textContent = n.label; }
+        }
+      }
+      document.title = key === "inicio" || i < 0 ? "S.E.R con vos" : order[i].label + " · S.E.R con vos";
+      current = key;
+    };
+
+    var go = function (id, mode) {
+      var el = id ? document.getElementById(id) : null;
+      var sec = el ? el.closest("main > section") : null;
+      if (!sec) { sec = home; el = home; }
+      var key = sec === home ? "inicio" : viewOf(sec);
+      var changed = key !== current;
+      show(key);
+      var tp = el.closest('[role="tabpanel"]');
+      if (tp && tp.hidden) { var tb = document.getElementById(tp.getAttribute("aria-labelledby")); if (tb) tb.click(); }
+      var toTop = el === sec || el.id === key;
+      var top = toTop ? 0 : el.getBoundingClientRect().top + window.scrollY - (header.offsetHeight - 1);
+      window.scrollTo({ top: top, behavior: changed || reduced ? "auto" : "smooth" });
+      var hash = key === "inicio" && toTop ? location.pathname + location.search : "#" + (toTop ? key : el.id);
+      try {
+        if (mode === "push") history.pushState(null, "", hash);
+        else if (mode === "replace") history.replaceState(null, "", hash);
+      } catch (_) {}
+    };
 
     document.addEventListener("click", function (e) {
       var a = e.target.closest('a[href^="#"]');
       if (!a) return;
       var id = a.getAttribute("href");
       if (!id || id === "#") return;
-      var el = document.querySelector(id);
-      if (!el) return;
+      if (!document.getElementById(id.slice(1))) return;
       e.preventDefault();
-      var tp = el.closest('[role="tabpanel"]');
-      if (tp && tp.hidden) { var tb = document.getElementById(tp.getAttribute("aria-labelledby")); if (tb) tb.click(); }
       if (a.dataset.motivo) {
         var sel = $("#cMotivo");
         $$("option", sel).forEach(function (o) { if (o.textContent === a.dataset.motivo) sel.value = o.value; });
       }
-      menu.classList.remove("open"); toggle.setAttribute("aria-expanded", "false");
-      var top = id === "#inicio" ? 0 : el.getBoundingClientRect().top + window.scrollY - (header.offsetHeight - 1);
-      window.scrollTo({ top: top, behavior: reduced ? "auto" : "smooth" });
-      try { history.replaceState(null, "", id); } catch (_) {}
+      closeMenu();
+      go(id.slice(1), "push");
     });
+    window.addEventListener("popstate", function () { go((location.hash || "").slice(1), "none"); });
 
-    var links = $$(".menu a");
-    var map = {};
-    links.forEach(function (l) { map[l.getAttribute("href").slice(1)] = l; });
-    if ("IntersectionObserver" in window) {
-      var spy = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          if (!en.isIntersecting) return;
-          links.forEach(function (l) { l.classList.remove("is-active"); });
-          if (map[en.target.id]) map[en.target.id].classList.add("is-active");
-        });
-      }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
-      $$("main > section[id]").forEach(function (s) { spy.observe(s); });
-    }
-
-    // Deep link (#herramientas, etc.)
-    var h = (location.hash || "").slice(1);
-    if (h && /^[\w-]+$/.test(h) && document.getElementById(h)) {
-      setTimeout(function () {
-        var el = document.getElementById(h);
-        window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - header.offsetHeight + 1, behavior: "auto" });
-      }, 60);
-    }
+    var h = (location.hash || "").slice(1), hs = h && /^[\w-]+$/.test(h) ? document.getElementById(h) : null;
+    var hsec = hs ? hs.closest("main > section") : null;
+    show(hsec && hsec !== home ? viewOf(hsec) : "inicio");
+    if (hsec) setTimeout(function () { go(h, "none"); }, 60);
   }
 
   /* ---------- Reveal (threshold bajo + red de seguridad 6s) ---------- */
